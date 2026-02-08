@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super Bowl LX Prop Questions</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .subtitle {
+            font-size: 1.3em;
+            opacity: 0.9;
+            margin-bottom: 5px;
+        }
+
+        .matchup {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .controls {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+            text-align: center;
+        }
+
+        .name-input-section {
+            margin-bottom: 15px;
+        }
+
+        .name-input-section label {
+            font-size: 1.1em;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .name-input-section input {
+            padding: 10px 15px;
+            font-size: 16px;
+            border: 2px solid #fff;
+            border-radius: 5px;
+            width: 250px;
+            max-width: 100%;
+        }
+
+        .questions-container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            color: #333;
+        }
+
+        .category {
+            margin-bottom: 35px;
+        }
+
+        .category-title {
+            font-size: 1.5em;
+            color: #1e3c72;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #ff6b35;
+        }
+
+        .question {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #2a5298;
+        }
+
+        .question-text {
+            font-size: 1.1em;
+            font-weight: bold;
+            margin-bottom: 12px;
+            color: #1e3c72;
+        }
+
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .option {
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .option input[type="radio"] {
+            display: none;
+        }
+
+        .option label {
+            display: block;
+            padding: 12px 20px;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .option input[type="radio"]:checked + label {
+            background: #2a5298;
+            color: white;
+            border-color: #2a5298;
+        }
+
+        .option label:hover {
+            border-color: #2a5298;
+            transform: translateY(-2px);
+        }
+
+        .text-input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .submit-section {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px solid #ddd;
+        }
+
+        button {
+            background: #ff6b35;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background: #ff8555;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .results-container {
+            display: none;
+            background: rgba(255,255,255,0.1);
+            padding: 30px;
+            border-radius: 10px;
+            margin-top: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .results-container.show {
+            display: block;
+        }
+
+        .results-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .answer-item {
+            background: rgba(255,255,255,0.2);
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+
+        .answer-question {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .answer-value {
+            color: #ffd700;
+            font-size: 1.1em;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .subtitle {
+                font-size: 1.1em;
+            }
+
+            .option {
+                min-width: 100%;
+            }
+
+            .name-input-section input {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏈 Super Bowl LX 🏈</h1>
+            <p class="subtitle">Prop Questions Game</p>
+            <p class="matchup">Patriots vs Seahawks</p>
+        </header>
+
+        <div class="controls">
+            <div class="name-input-section">
+                <label for="playerName">Your Name:</label>
+                <input type="text" id="playerName" placeholder="Enter your name" maxlength="30">
+            </div>
+            <p style="opacity: 0.9;">Fill out your predictions below and submit!</p>
+        </div>
+
+        <div class="questions-container">
+            <form id="propForm">
+                <!-- Pre-Game Category -->
+                <div class="category">
+                    <h2 class="category-title">Pre-Game</h2>
+
+                    <div class="question">
+                        <div class="question-text">1. Who will win the coin toss?</div>
+                        <div class="options">
+                            <div class="option">
+                                <input type="radio" id="q1-heads" name="q1" value="Heads">
+                                <label for="q1-heads">Heads</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" id="q1-tails" name="q1" value="Tails">
+                                <label for="q1-tails">Tails</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <div class="question-text">2. How long will the national anthem be?</div>
+                        <div class="options">
+                            <div class="option">
+                                <input type="radio" id="q2-over" name="q2" value="Over 120 seconds">
+                                <label for="q2-over">Over 120 seconds</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" id="q2-under" name="q2" value="Under 120 seconds">
+                                <label for="q2-under">Under 120 seconds</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <div class="question-text">3. Will Charlie Puth hold the final "brave" note for over 3.5 seconds?</div>
+                        <div class="options">
+                            <div class="option">
+                                <input type="radio" id="q3-yes" name="q3" value="Yes">
+                                <label for="q3-yes">Yes</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" id="q3-no" name="q3" value="No">
+                                <label for="q3-no">No</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <div class="question-text">4. Will a player or coach cry during the national anthem?</div>
+                        <div class="options">
+                            <div class="option">
+                                <input type="radio" id="q4-yes" name="q4" value="Yes">
+                                <label for="q4-yes">Yes</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" id="q4-no" name="q4" value="No">
+                                <label for="q4-no">No</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <div class="question-text">5. What will the temperature be at kickoff?</div>
+                        <div class="options">
+                            <div class="option">
+                                <input type="radio" id="q5-over" name="q5" value="Over 58°F">
+                                <label for="q5-over">Over 58°F</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" id="q5-under" name="q5" value="Under 58°F">
+                                <label for="q5-under">Under 58°F</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Game Questions Category -->
+                <div class="category">
+                    <h2 class="category-title">Game Questions</h2>
+
+                    <div class="question">
+                        <div class="question-text">6. Who will win the game?</div>
+                        <div class="options">
+                            <div class="option">
+                                <input type="radio" id="q6-patriots" name="q6" value="Patriots">
+                                <label for="q6-patriots">Patriots</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" id="q6-seahawks" name="q6" value="Seahawks">
+                                <label for="q6-seahawks">Seahawks</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <div class="question-text">7. Will the total score be over or under 45.5 points?</div>
+                        <div class="options">
+                            <div class="option">
+                                <input type="radio" id="q7-over" name="q7" value="Over 45.5">
+                                <label for="q7-over">Over 45.5</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" id="q7-under" name="q7" value="Under 45.5">
+                                <label for="q7-under">Under 45.5</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <div class="question-text">8. Who will score the first touchdown?</div>
+                        <div class="options">
+                            <div class="option">
+                                <input type="radio" id="q8-patriots" name="q8" value="Patriots">
+                                <label for="q8-patriots">Patriots</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" id="q8-seahawks" name="q8" value="Seahawks">
+                                <label for="q8-seahawks">Seahawks</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <div class="question-text">9. Who will win Super Bowl MVP?</div>
+                        <div class="options">
+                            <div class="option">
+                                <input type="radio" id="q9-maye" name="q9" value="Drake Maye">
+                                <label for="q9-maye">Drake Maye</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" id="q9-darnold" name="q9" value="Sam Darnold">
+                                <label for="q9-darnold">Sam Darnold</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" id="q9-other" name="q9" value="Other">
+                                <label for="q9-other">Other</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <div class="question-text">10. Will Drake Maye throw an interception?</div>
+                        <div class="options">
+                            <div class="option">
+                                <input type="radio" id="q10-yes" name="q10" value="Yes">
+                                <label for="q10-yes">Yes</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" id="q10-no" name="q10" value="No">
+                                <label for="q10-no">No</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <div class="question-text">11. Who will have more passing yards?</div>
+                        <div class="options">
+                            <div class="option">
+                                <input type="radio" id="q11-maye" name="q11" value="Drake Maye">
+                                <label for="q11-maye">Drake Maye</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" id="q11-darnold" name="q11" value="Sam Darnold">
+                                <label for="q11-darnold">Sam Darnold</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <div class="question-text">12. Who will have more rushing yards?</div>
+                        <div class="options">
+                            <div class="option">
+                                <input type="radio" id="q12-stevenson" name="q12" value="Rhamondre Stevenson">
+                                <label for="q12-stevenson">Rhamondre Stevenson</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" id="q12-walker" name="q12" value="Kenneth Walker III">
+                                <label for="q12-walker">Kenneth Walker III</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <div class="question-text">13. Who will have the most receiving yards?</div>
+                        <div class="options">
+                            <div class="option">
+                                <input type="radio" id="q13-diggs" name="q13" value="Stefon Diggs">
+                                <label for="q13-diggs">Stefon Diggs</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" id="q13-henry" name="q13" value="Hunter Henry">
+                                <label for="q13-henry">Hunter Henry</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" id="q13-smith" name="q13" value="Jaxon Smith-Njigba">
+                                <label for="q13-smith">J. Smith-Njigba</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" id="q13-kupp" name="q13" value="Cooper Kupp">
+                                <label for="q13-kupp">Cooper Kupp</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" id="q13-other" name="q13" value="Other">
+                                <label for="q13-other">Other</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <div class="question-text">14. Will there be a score in the first quarter?</div>
+                        <div class="options">
+                            <div class="option">
+                                <input type="radio" id="q14-yes" name="q14" value="Yes">
+                                <label for="q14-yes">Yes</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" id="q14-no" name="q14" value="No">
+                                <label for="q14-no">No</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <div class="question-text">15. How many total players will attempt a pass?</div>
+                        <div class="options">
+                            <div class="option">
+                                <input type="radio" id="q15-over" name="q15" value="Over 2.5">
+                                <label for="q15-over">Over 2.5</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" id="q15-under" name="q15" value="Under 2.5">
+                                <label for="q15-under">Under 2.5</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Halftime Show Category -->
+                <div class="category">
+                    <h2 class="category-title">Halftime Show</h2>
+
+                    <div class="question">
+                        <div class="question-text">16. What will Bad Bunny's first song be?</div>
+                        <div class="options">
+                            <div class="option">
+                                <input type="radio" id="q16-titi" name="q16" value="Titi Me Pregunto">
+                                <label for="q16-titi">Titi Me Pregunto</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" id="q16-alambre" name="q16" value="ALAMBRE PuA">
+                                <label for="q16-alambre">ALAMBRE PuA</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" id="q16-mudanza" name="q16" value="La Mudanza">
+                                <label for="q16-mudanza">La Mudanza</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" id="q16-nueva" name="q16" value="NUEVAYoL">
+                                <label for="q16-nueva">NUEVAYoL</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" id="q16-other" name="q16" value="Other">
+                                <label for="q16-other">Other</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <div class="question-text">17. Will anyone join Bad Bunny on stage?</div>
+                        <div class="options">
+                            <div class="option">
+                                <input type="radio" id="q17-yes" name="q17" value="Yes">
+                                <label for="q17-yes">Yes</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" id="q17-no" name="q17" value="No">
+                                <label for="q17-no">No</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <div class="question-text">18. How many songs will be performed?</div>
+                        <div class="options">
+                            <div class="option">
+                                <input type="radio" id="q18-over" name="q18" value="Over 11.5">
+                                <label for="q18-over">Over 11.5</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" id="q18-under" name="q18" value="Under 11.5">
+                                <label for="q18-under">Under 11.5</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Post-Game Category -->
+                <div class="category">
+                    <h2 class="category-title">Post-Game</h2>
+
+                    <div class="question">
+                        <div class="question-text">19. What color will the Gatorade bath be?</div>
+                        <div class="options">
+                            <div class="option">
+                                <input type="radio" id="q19-green" name="q19" value="Lime/Green/Yellow">
+                                <label for="q19-green">Lime/Green/Yellow</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" id="q19-clear" name="q19" value="Clear/Water">
+                                <label for="q19-clear">Clear/Water</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" id="q19-red" name="q19" value="Red/Pink">
+                                <label for="q19-red">Red/Pink</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" id="q19-blue" name="q19" value="Blue">
+                                <label for="q19-blue">Blue</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" id="q19-orange" name="q19" value="Orange">
+                                <label for="q19-orange">Orange</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" id="q19-purple" name="q19" value="Purple">
+                                <label for="q19-purple">Purple</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <div class="question-text">20. How many times will Cardi B be shown on camera during the game broadcast?</div>
+                        <div class="options">
+                            <div class="option">
+                                <input type="radio" id="q20-over" name="q20" value="Over 1.5">
+                                <label for="q20-over">Over 1.5</label>
+                            </div>
+                            <div class="option">
+                                <input type="radio" id="q20-under" name="q20" value="Under 1.5">
+                                <label for="q20-under">Under 1.5</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="submit-section">
+                    <button type="submit">Submit My Predictions 🏈</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="results-container" id="resultsContainer">
+            <h2>📋 Your Predictions</h2>
+            <div id="resultsList"></div>
+            <div style="text-align: center; margin-top: 30px;">
+                <button onclick="editAnswers()">Edit My Answers</button>
+                <button onclick="copyToClipboard()" style="background: #28a745; margin-left: 10px;">Copy Results</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('propForm');
+        const resultsContainer = document.getElementById('resultsContainer');
+        const resultsList = document.getElementById('resultsList');
+        const playerNameInput = document.getElementById('playerName');
+
+        const questions = [
+            "Who will win the coin toss?",
+            "How long will the national anthem be?",
+            "Will Charlie Puth hold the final 'brave' note for over 3.5 seconds?",
+            "Will a player or coach cry during the national anthem?",
+            "What will the temperature be at kickoff?",
+            "Who will win the game?",
+            "Will the total score be over or under 45.5 points?",
+            "Who will score the first touchdown?",
+            "Who will win Super Bowl MVP?",
+            "Will Drake Maye throw an interception?",
+            "Who will have more passing yards?",
+            "Who will have more rushing yards?",
+            "Who will have the most receiving yards?",
+            "Will there be a score in the first quarter?",
+            "How many total players will attempt a pass?",
+            "What will Bad Bunny's first song be?",
+            "Will anyone join Bad Bunny on stage?",
+            "How many songs will be performed?",
+            "What color will the Gatorade bath be?",
+            "How many times will Cardi B be shown on camera during the game broadcast?"
+        ];
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const playerName = playerNameInput.value.trim();
+            if (!playerName) {
+                alert('Please enter your name!');
+                playerNameInput.focus();
+                return;
+            }
+
+            // Check if all questions are answered
+            let allAnswered = true;
+            for (let i = 1; i <= 20; i++) {
+                const answer = document.querySelector(`input[name="q${i}"]:checked`);
+                if (!answer) {
+                    allAnswered = false;
+                    break;
+                }
+            }
+
+            if (!allAnswered) {
+                alert('Please answer all 20 questions before submitting!');
+                return;
+            }
+
+            // Collect answers
+            let resultsHTML = `<div class="answer-item"><div class="answer-question">Player Name:</div><div class="answer-value">${playerName}</div></div>`;
+            
+            for (let i = 1; i <= 20; i++) {
+                const answer = document.querySelector(`input[name="q${i}"]:checked`);
+                if (answer) {
+                    resultsHTML += `
+                        <div class="answer-item">
+                            <div class="answer-question">${i}. ${questions[i-1]}</div>
+                            <div class="answer-value">${answer.value}</div>
+                        </div>
+                    `;
+                }
+            }
+
+            resultsList.innerHTML = resultsHTML;
+            
+            // Hide form and show results
+            document.querySelector('.questions-container').style.display = 'none';
+            document.querySelector('.controls').style.display = 'none';
+            resultsContainer.classList.add('show');
+            
+            // Scroll to results
+            resultsContainer.scrollIntoView({ behavior: 'smooth' });
+        });
+
+        function editAnswers() {
+            document.querySelector('.questions-container').style.display = 'block';
+            document.querySelector('.controls').style.display = 'block';
+            resultsContainer.classList.remove('show');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function copyToClipboard() {
+            const playerName = playerNameInput.value.trim();
+            let text = `${playerName}'s Super Bowl LX Predictions\n\n`;
+            
+            for (let i = 1; i <= 20; i++) {
+                const answer = document.querySelector(`input[name="q${i}"]:checked`);
+                if (answer) {
+                    text += `${i}. ${questions[i-1]}\n   ${answer.value}\n\n`;
+                }
+            }
+
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Predictions copied to clipboard!');
+            }).catch(() => {
+                alert('Could not copy to clipboard. Please try again.');
+            });
+        }
+    </script>
+</body>
+</html>
